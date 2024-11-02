@@ -53,36 +53,36 @@ cursor.executemany('''
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ''', users_data)
 
-# Insert dummy data into ads table with new fields
+# Insert dummy data into the ads table with the correct number of values
 ads_data = [
     (
         1, 'Project 1: AI Chatbot', 'Developing a chatbot using NLP for customer service.', 
         'https://example.com/chatbot.jpg', 'Python, NLP, Machine Learning', 
-        'Research Project', 5, 0  # looking_for_mentor=False
+        'Research Project', 5, 0, 0
     ),
     (
         2, 'Project 2: E-commerce Website', 'Building a full-stack e-commerce application.', 
         'https://example.com/ecommerce.jpg', 'JavaScript, React, SQL', 
-        'Personal Project', 3, 1  # looking_for_mentor=True
+        'Personal Project', 3, 1, 0
     ),
     (
         3, 'Project 3: Data Visualization Tool', 'Creating tools for data analysis and visualization.', 
         'https://example.com/dataviz.jpg', 'Python, D3.js, Data Analysis', 
-        'Academic Project', 4, 1  # looking_for_mentor=True
+        'Academic Project', 4, 1, 0
     ),
     (
         1, 'Project 4: Mobile Game', 'Developing a mobile game using Unity.', 
         'https://example.com/game.jpg', 'Unity, C#, Game Design', 
-        'Personal Project', 2, 0  # looking_for_mentor=False
+        'Personal Project', 2, 0, 0
     )
 ]
 
 cursor.executemany('''
     INSERT INTO ads (
         created_by, title, description, image, skills_required, 
-        project_type, team_size, looking_for_mentor
+        project_type, team_size, looking_for_mentor, completed
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 ''', ads_data)
 
 # Commit changes and close the connection

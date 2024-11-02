@@ -40,6 +40,7 @@ cursor.execute('''
         project_type TEXT,
         team_size INTEGER,
         looking_for_mentor BOOLEAN,
+        completed BOOLEAN DEFAULT 0,
         FOREIGN KEY (created_by) REFERENCES users(userid)
     )
 ''')
