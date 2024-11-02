@@ -41,12 +41,12 @@ def login():
 
     with get_db() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT password_hash FROM users WHERE email = ?", (email,))
+        cursor.execute("SELECT userid, password_hash FROM users WHERE email = ?", (email,))
         user = cursor.fetchone()
 
     if user and check_password_hash(user['password_hash'], password):
         access_token = create_access_token(identity=email)
-        return jsonify(access_token=access_token), 200
+        return jsonify(userid=user['userid'], access_token=access_token), 200
     else:
         return jsonify({"msg": "Bad username or password"}), 401
 
@@ -83,13 +83,33 @@ def protected():
 def get_user(user_id):
     with get_db() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+        cursor.execute("SELECT * FROM users WHERE userid = ?", (user_id,))
         user = cursor.fetchone()
 
     if user is None:
         return jsonify({"msg": "User not found"}), 404
 
-    return jsonify(user), 200
+    return jsonify(dict(user)), 200
+
+# @app.route('/api/users/search', methods=['GET'])
+# def search_users():
+#     university = request.args.get('university')
+#     skills = request.args.get('skills')
+
+#     params = (university, skills)
+
+#     query = "SELECT * FROM users WHERE university = ?"
+
+#     # Execute the query with the parameters
+#     with get_db() as conn:
+#         cursor = conn.cursor()
+#         cursor.execute(query, params)
+#         users = cursor.fetchall()
+
+#         # Convert the result to a list of dictionaries
+#         user_list = [dict(user) for user in users]
+    
+#     return jsonify(user_list), 200
 
 if __name__ == '__main__':
     if not os.path.exists(DATABASE):

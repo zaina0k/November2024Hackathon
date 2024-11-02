@@ -40,5 +40,25 @@ class FlaskAppTests(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.get_json(), {"msg": "Bad username or password"})
 
+    def test_login_get_user(self):
+        email = 'testuser@example.com'
+        # Step 1: Log in to get the access token
+        login_response = self.app.post('/api/auth/login', 
+                                        data=json.dumps({'email': email, 'password': 'password123'}), 
+                                        content_type='application/json')
+        
+        # Check login response and retrieve the token
+        self.assertEqual(login_response.status_code, 200)
+        token = login_response.json.get('access_token')
+        userid = int(login_response.json.get('userid'))
+        self.assertIsNotNone(token, "Access token should not be None")
+
+        # Step 2: Use the token to get user information
+        user_response = self.app.get(f'/api/user/{userid}',
+                                      headers={'Authorization': f'Bearer {token}'})
+        
+        # Check the response status code for user retrieval
+        self.assertEqual(user_response.status_code, 200)
+
 if __name__ == '__main__':
     unittest.main()
