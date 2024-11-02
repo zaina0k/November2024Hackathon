@@ -13,12 +13,6 @@ def generate_password_hash(password):
     # Return the hexadecimal digest of the hash
     return sha256_hash.hexdigest()
 
-def check_password_hash(stored_hash, input_password):
-    # Hash the input password
-    hashed_input_password = generate_password_hash(input_password)
-    # Compare the hashed input password with the stored hash
-    return stored_hash == hashed_input_password
-
 app = Flask(__name__)
 CORS(app)
 
@@ -37,14 +31,14 @@ def get_db():
 @app.route('/api/auth/login', methods=['POST'])
 def login():
     email = request.json.get('email')
-    password = request.json.get('password')
+    password_hash = request.json.get('password_hash')
 
     with get_db() as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT userid, password_hash FROM users WHERE email = ?", (email,))
         user = cursor.fetchone()
 
-    if user and check_password_hash(user['password_hash'], password):
+    if user and user['password_hash'] == password_hash:
         access_token = create_access_token(identity=email)
         return jsonify(userid=user['userid'], access_token=access_token), 200
     else:
