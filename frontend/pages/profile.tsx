@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./css/profile.css"; // Import the CSS file
 
 export default function Profile() {
@@ -19,6 +19,46 @@ export default function Profile() {
     linkedin: "",
   });
   const [lookingForProject, setLookingForProject] = useState(false);
+
+  useEffect(() => {
+      const fetchUserData = async () => {
+        const token = localStorage.getItem('access_token');
+        const user_id = localStorage.getItem('user_id');
+    
+        const response = await fetch(`http://localhost:8080/api/user/${user_id}`, { // Use the correct user ID
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+    
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+    
+        const data = await response.json();
+        console.log('User data:', data);
+
+        setFirstName(data.firstname);
+        setSurname(data.surname);
+        setEmail(data.email);
+        setPasswordHash(data.password_hash);
+        setUniversity(data.university);
+        setProgramOfStudy(data.program_of_study);
+        setStudyYear(data.study_year);
+        setSkills(data.skills.split(',').map(skill => skill.trim())); // Splitting and trimming the skills string
+        setBiography(data.biography);
+        setProfilePictureURL(data.profile_picture_url);
+        setProjectParticipation(data.project_participation);
+        setSocialMediaLinks({
+            github: data.github_link,
+            linkedin: data.linkedin_link,
+        });
+    };
+
+    fetchUserData();
+  });
 
   const handleSubmit = (event:any) => {
     event.preventDefault();
