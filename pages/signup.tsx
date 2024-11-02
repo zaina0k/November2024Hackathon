@@ -20,6 +20,10 @@ export default function Signup() {
       setErrorMessage("Passwords do not match!"); // Set error message
       return;
     }
+    if (password.length < 8) {
+      setErrorMessage("Password needs to be at least 8 characters long.")
+      return;
+    }
 
     console.log("Email:", email);
     console.log("Password:", password);
@@ -66,7 +70,7 @@ export default function Signup() {
         <button type="submit" className="signin-button">
           Sign Up
         </button>
-        <text style={{marginTop:30,color:"#71797E",padding:10}}>Already registered? Please sign-in then!</text>
+        <text style={{marginTop:30,alignSelf:"center",color:"#71797E",padding:10}}>Already registered? Please sign-in then!</text>
         <button type="submit" className="redirect-button">
           Redirect to Sign-in form
         </button>
