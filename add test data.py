@@ -7,30 +7,77 @@ cursor = conn.cursor()
 # Enable foreign key support
 cursor.execute('PRAGMA foreign_keys = ON')
 
-# Insert dummy data into users table
+# Insert dummy data into users table with new fields
 users_data = [
-    ('John', 'Doe', 'hashed_password1', 'john.doe@example.com'),
-    ('Jane', 'Smith', 'hashed_password2', 'jane.smith@example.com'),
-    ('Alice', 'Johnson', 'hashed_password3', 'alice.johnson@example.com'),
-    ('Bob', 'Brown', 'hashed_password4', 'bob.brown@example.com')
+    (
+        'John', 'Doe', 'john.doe@example.com', 'hashed_password1', 
+        'Harvard University', 'Computer Science', 3, 
+        'Python, JavaScript, SQL', 'Experienced backend developer with a passion for AI.', 
+        'https://example.com/john.jpg', 'Participated in 5 projects', 
+        'https://github.com/johndoe', 'https://linkedin.com/in/johndoe'
+    ),
+    (
+        'Jane', 'Smith', 'jane.smith@example.com', 'hashed_password2', 
+        'MIT', 'Data Science', 2, 
+        'Data Analysis, Machine Learning', 'Data science enthusiast and researcher.', 
+        'https://example.com/jane.jpg', 'Participated in 3 projects', 
+        'https://github.com/janesmith', 'https://linkedin.com/in/janesmith'
+    ),
+    (
+        'Alice', 'Johnson', 'alice.johnson@example.com', 'hashed_password3', 
+        'Stanford University', 'Software Engineering', 1, 
+        'C++, Java', 'Software engineering student with a love for algorithms.', 
+        'https://example.com/alice.jpg', 'Participated in 2 projects', 
+        'https://github.com/alicejohnson', 'https://linkedin.com/in/alicejohnson'
+    ),
+    (
+        'Bob', 'Brown', 'bob.brown@example.com', 'hashed_password4', 
+        'UC Berkeley', 'Cybersecurity', 4, 
+        'Network Security, Python, SQL', 'Senior cybersecurity student interested in ethical hacking.', 
+        'https://example.com/bob.jpg', 'Participated in 7 projects', 
+        'https://github.com/bobbrown', 'https://linkedin.com/in/bobbrown'
+    )
 ]
 
 cursor.executemany('''
-    INSERT INTO users (firstname, lastname, password_hash, email)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO users (
+        firstname, surname, email, password_hash, university, 
+        program_of_study, study_year, skills, biography, 
+        profile_picture_url, project_participation, github_link, linkedin_link
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ''', users_data)
 
-# Insert dummy data into ads table
+# Insert dummy data into ads table without duration, start date, and end date fields
 ads_data = [
-    (1, 'Ad Title 1', 'Description for Ad 1 posted by John Doe'),
-    (2, 'Ad Title 2', 'Description for Ad 2 posted by Jane Smith'),
-    (3, 'Ad Title 3', 'Description for Ad 3 posted by Alice Johnson'),
-    (1, 'Ad Title 4', 'Description for Ad 4 posted by John Doe')
+    (
+        1, 'Project 1: AI Chatbot', 'Developing a chatbot using NLP for customer service.', 
+        'https://example.com/chatbot.jpg', 'Python, NLP, Machine Learning', 
+        'Research Project', 5
+    ),
+    (
+        2, 'Project 2: E-commerce Website', 'Building a full-stack e-commerce application.', 
+        'https://example.com/ecommerce.jpg', 'JavaScript, React, SQL', 
+        'Personal Project', 3
+    ),
+    (
+        3, 'Project 3: Data Visualization Tool', 'Creating tools for data analysis and visualization.', 
+        'https://example.com/dataviz.jpg', 'Python, D3.js, Data Analysis', 
+        'Academic Project', 4
+    ),
+    (
+        1, 'Project 4: Mobile Game', 'Developing a mobile game using Unity.', 
+        'https://example.com/game.jpg', 'Unity, C#, Game Design', 
+        'Personal Project', 2
+    )
 ]
 
 cursor.executemany('''
-    INSERT INTO ads (created_by, title, description)
-    VALUES (?, ?, ?)
+    INSERT INTO ads (
+        created_by, title, description, image, skills_required, 
+        project_type, team_size
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?)
 ''', ads_data)
 
 # Commit changes and close the connection
