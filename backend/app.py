@@ -149,4 +149,4 @@ def create_ad():
 if __name__ == '__main__':
     if not os.path.exists(DATABASE):
         with open(DATABASE, 'w'): pass  # Create the database file if it doesn't exist
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
