@@ -1,0 +1,71 @@
+/* Layout Styling */
+.profile-page {
+    display: flex;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  /* Left Profile Section */
+  .profile-left {
+    width: 35%;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  h2 {
+    font-size: 1.5em;
+    margin-top: 10px;
+  }
+  
+  .social-links p {
+    font-size: 14px;
+    color: #333;
+    margin: 5px 0;
+  }
+  
+  .social-links a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  /* Right Profile Section */
+  .profile-right {
+    width: 60%;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-info h3 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+  }
+  
+  .profile-info p, .profile-info ul {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  ul li {
+    margin-bottom: 5px;
+  }
+  
