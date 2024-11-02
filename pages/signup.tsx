@@ -66,11 +66,16 @@ export default function Signup() {
         <button type="submit" className="signin-button">
           Sign Up
         </button>
+        <text style={{marginTop:30,color:"#71797E",padding:10}}>Already registered? Please sign-in then!</text>
+        <button type="submit" className="redirect-button">
+          Redirect to Sign-in form
+        </button>
       </form>
       {/* Display the error message as a popup */}
       {errorMessage && (
         <div className="error-popup">
           {errorMessage}
+          <button onClick={() => setErrorMessage("")}>OK</button> {/* Close button */}
         </div>
       )}
     </div>
