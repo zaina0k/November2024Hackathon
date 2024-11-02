@@ -23,10 +23,8 @@ cursor.execute('''
         profile_picture_url TEXT,
         project_participation TEXT, -- Store as comma-separated values of project IDs
         github_link TEXT,
-        linkedin_link TEXT
-        looking_for_project BOOLEAN,
-        is_mentor BOOLEAN,
-        wants_mentor BOOLEAN
+        linkedin_link TEXT,
+        looking_for_project BOOLEAN
     )
 ''')
 
@@ -41,6 +39,7 @@ cursor.execute('''
         skills_required TEXT, -- Store as comma-separated values
         project_type TEXT,
         team_size INTEGER,
+        looking_for_mentor BOOLEAN,
         FOREIGN KEY (created_by) REFERENCES users(userid)
     )
 ''')
