@@ -111,6 +111,25 @@ def get_user(user_id):
     
 #     return jsonify(user_list), 200
 
+@app.route('/api/ads', methods=['GET'])
+def get_ads():
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM ads WHERE completed = 0")
+        ads = cursor.fetchall()
+
+    return jsonify([dict(ad) for ad in ads]), 200
+
+@app.route('/api/user/<int:user_id>/ads', methods=['GET'])
+@jwt_required()
+def get_user_ads(user_id):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM ads WHERE created_by = ? AND completed = 0", (user_id,))
+        ads = cursor.fetchall()
+
+    return jsonify([dict(ad) for ad in ads]), 200
+
 if __name__ == '__main__':
     if not os.path.exists(DATABASE):
         with open(DATABASE, 'w'): pass  # Create the database file if it doesn't exist
