@@ -110,6 +110,42 @@ def get_user_ads(user_id):
 
     return jsonify([dict(ad) for ad in ads]), 200
 
+@app.route('/ads', methods=['POST'])
+def create_ad():
+    data = request.get_json()
+
+    # Extract fields from request JSON, with basic validation
+    created_by = data.get('created_by')
+    title = data.get('title')
+    description = data.get('description')
+    image = data.get('image')
+    skills_required = data.get('skills_required')
+    project_type = data.get('project_type')
+    team_size = data.get('team_size')
+    looking_for_mentor = data.get('looking_for_mentor')
+    completed = data.get('completed', 0)
+
+    # Check required fields
+    if not created_by or not title:
+        return jsonify({"error": "Missing required fields: 'created_by' and 'title'"}), 400
+
+    # Insert the new record into the database
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO ads (created_by, title, description, image, skills_required, project_type, team_size, looking_for_mentor, completed)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (created_by, title, description, image, skills_required, project_type, team_size, looking_for_mentor, completed))
+        
+        conn.commit()
+        projectid = cursor.lastrowid
+        conn.close()
+
+        return jsonify({"message": "Ad created successfully", "projectid": projectid}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     if not os.path.exists(DATABASE):
         with open(DATABASE, 'w'): pass  # Create the database file if it doesn't exist

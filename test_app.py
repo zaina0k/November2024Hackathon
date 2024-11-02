@@ -60,5 +60,37 @@ class FlaskAppTests(unittest.TestCase):
         # Check the response status code for user retrieval
         self.assertEqual(user_response.status_code, 200)
 
+    def test_create_ad(self):
+        """Test creating a new ad."""
+        
+        # Sample data to create a new ad
+        data = {
+            "created_by": 1,  # Replace with an actual user ID from your database or mock setup
+            "title": "Test Project",
+            "description": "This is a test project description.",
+            "image": "test_image.png",
+            "skills_required": "Python, Flask, SQL",
+            "project_type": "Open Source",
+            "team_size": 3,
+            "looking_for_mentor": True,
+            "completed": False
+        }
+        
+        # Send a POST request to the create_ad endpoint
+        response = self.app.post('/ads',
+                                 data=json.dumps(data),
+                                 content_type='application/json')
+        
+        # Check the response status code
+        self.assertEqual(response.status_code, 201)
+        
+        # Check the response data
+        response_data = response.get_json()
+        self.assertIn("message", response_data)
+        self.assertEqual(response_data["message"], "Ad created successfully")
+        self.assertIn("projectid", response_data)
+        self.assertIsInstance(response_data["projectid"], int)
+
+
 if __name__ == '__main__':
     unittest.main()
