@@ -91,26 +91,6 @@ def get_user(user_id):
 
     return jsonify(dict(user)), 200
 
-# @app.route('/api/users/search', methods=['GET'])
-# def search_users():
-#     university = request.args.get('university')
-#     skills = request.args.get('skills')
-
-#     params = (university, skills)
-
-#     query = "SELECT * FROM users WHERE university = ?"
-
-#     # Execute the query with the parameters
-#     with get_db() as conn:
-#         cursor = conn.cursor()
-#         cursor.execute(query, params)
-#         users = cursor.fetchall()
-
-#         # Convert the result to a list of dictionaries
-#         user_list = [dict(user) for user in users]
-    
-#     return jsonify(user_list), 200
-
 @app.route('/api/ads', methods=['GET'])
 def get_ads():
     with get_db() as conn:
