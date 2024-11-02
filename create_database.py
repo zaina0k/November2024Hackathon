@@ -24,6 +24,9 @@ cursor.execute('''
         project_participation TEXT, -- Store as comma-separated values of project IDs
         github_link TEXT,
         linkedin_link TEXT
+        looking_for_project BOOLEAN,
+        is_mentor BOOLEAN,
+        wants_mentor BOOLEAN
     )
 ''')
 
