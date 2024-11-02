@@ -1,9 +1,11 @@
 "use client"; // Indicate this is a client component
 
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
 import "./css/signup.css"; // Import the CSS file
 
 export default function Signup() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -123,7 +125,7 @@ export default function Signup() {
           Sign Up
         </button>
         <text style={{marginTop:30,alignSelf:"center",color:"#71797E",padding:10}}>Already registered? Please sign-in then!</text>
-        <button type="submit" className="redirect-button">
+        <button type="submit" className="redirect-button" onClick={()=>router.push("/signin")}>
           Redirect to Sign-in form
         </button>
       </form>
