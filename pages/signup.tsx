@@ -73,7 +73,7 @@ export default function Signup() {
           Sign Up
         </button>
         <text style={{marginTop:30,alignSelf:"center",color:"#71797E",padding:10}}>Already registered? Please sign-in then!</text>
-        <button type="submit" className="redirect-button">
+        <button onClick={()=> router.push('/signin')} type="submit" className="redirect-button">
           Redirect to Sign-in form
         </button>
       </form>
