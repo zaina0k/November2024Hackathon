@@ -194,6 +194,53 @@ def create_ad():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/user/<int:user_id>', methods=['PUT'])
+@jwt_required()
+def update_user(user_id):
+    data = request.json
+
+    fields_to_update = []
+    values_to_update = []
+
+    field_map = {
+        "firstname": "firstname",
+        "surname": "surname",
+        "email": "email",
+        "password_hash": "password_hash",
+        "university": "university",
+        "program_of_study": "program_of_study",
+        "study_year": "study_year",
+        "skills": "skills",
+        "biography": "biography",
+        "profile_picture_url": "profile_picture_url",
+        "project_participation": "project_participation",
+        "github_link": "github_link",
+        "linkedin_link": "linkedin_link",
+        "looking_for_project": "looking_for_project"
+    }
+
+    for key, value in data.items():
+        if key in field_map:
+            fields_to_update.append(f"{field_map[key]} = ?")
+            values_to_update.append(value if key != "skills" and key != "project_participation" else ','.join(value) if isinstance(value, list) else value)
+
+    if not fields_to_update:
+        return jsonify({"msg": "No fields to update"}), 400
+
+    set_clause = ", ".join(fields_to_update)
+    sql_query = f"UPDATE users SET {set_clause} WHERE userid = ?"
+    values_to_update.append(user_id)
+
+    try:
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute(sql_query, values_to_update)
+            conn.commit()
+    except Exception as e:
+        return jsonify({"msg": "Error updating user", "error": str(e)}), 500
+
+    return jsonify({"msg": "User updated successfully"}), 200
+
 if __name__ == '__main__':
     if not os.path.exists(DATABASE):
         with open(DATABASE, 'w'): pass  # Create the database file if it doesn't exist
