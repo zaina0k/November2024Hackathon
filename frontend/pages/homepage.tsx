@@ -1,78 +1,50 @@
 import Navbar from "./components/navBar";
 import "./css/homepage.css";
-
-const courses = [
-  {
-    ProjectID: 1,
-    Title: "Math Tutor - AI Trainer",
-    Description: "Measure AI chatbot progress, evaluate logic, and solve mathematical problems.",
-    Image: "https://static01.nyt.com/images/2016/09/28/us/28xp-pepefrog/28xp-pepefrog-articleLarge.jpg?quality=75&auto=webp",
-    SkillsRequired: ["Mathematics", "AI", "Problem Solving"],
-    ProjectType: "Full-time",
-    Duration: "6 months",
-    StartDate: "2024-01-01",
-    EndDate: "2024-06-30",
-    TeamSize: 5,
-  },
-  {
-    ProjectID: 2,
-    Title: "SEN / SEND Tutor",
-    Description: "Provide tailored support for students with special needs in Oxfordshire.",
-    Image: "https://static01.nyt.com/images/2016/09/28/us/28xp-pepefrog/28xp-pepefrog-articleLarge.jpg?quality=75&auto=webp",
-    SkillsRequired: ["Special Education", "Teaching", "Empathy"],
-    ProjectType: "Flexible Part-time",
-    Duration: "3 months",
-    StartDate: "2024-02-01",
-    EndDate: "2024-04-30",
-    TeamSize: 3,
-  },
-  {
-    ProjectID: 3,
-    Title: "SEN / SEND Tutor",
-    Description: "Provide tailored support for students with special needs in Oxfordshire.",
-    Image: "https://static01.nyt.com/images/2016/09/28/us/28xp-pepefrog/28xp-pepefrog-articleLarge.jpg?quality=75&auto=webp",
-    SkillsRequired: ["Special Education", "Teaching", "Empathy"],
-    ProjectType: "Flexible Part-time",
-    Duration: "3 months",
-    StartDate: "2024-02-01",
-    EndDate: "2024-04-30",
-    TeamSize: 3,
-  },
-  // Add more course objects here
-];
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Homepage() {
+  const [ads, setAds] = useState([]);
+
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/ads"); // Adjust the URL to match your Flask server's address
+        setAds(response.data);
+        console.log("Fetched ads:", response.data);
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+      }
+    };
+
+    fetchAds();
+  }, []);
+
   return (
     <>
       <Navbar />
       <div className="container">
-        <h2 className="title">Course Finder</h2>
-        <div className="courseList">
-          {courses.map((course) => (
-            <div key={course.ProjectID} className="courseCard" >
-              <div className="courseImageWrapper">
-                <img src={course.Image} alt={`${course.Title} Image`} className="courseImage" />
+        <h2 className="title">Project Finder</h2>
+        <div className="adList">
+          {ads.map((ad) => (
+            <div key={ad.projectid} className="adCard">
+              <div className="adImageWrapper">
+                <img src={ad.image} alt={`${ad.title} Image`} className="adImage" />
               </div>
-              <div className="courseContent">
-                <h3 className="courseTitle">{course.Title}</h3>
-                <p className="courseDescription">{course.Description}</p>
+              <div className="adContent">
+                <h3 className="adTitle">{ad.title}</h3>
+                <p className="adDescription">{ad.description}</p>
                 <p className="skills">
-                  <strong>Skills Required:</strong> {course.SkillsRequired.join(", ")}
+                  <strong>Skills Required:</strong> {ad.skills_required}
                 </p>
-                <p className="courseDetails">
-                  <strong>Project Type:</strong> {course.ProjectType}
+                <p className="adDetails">
+                  <strong>Project Type:</strong> {ad.project_type}
                 </p>
-                <p className="courseDetails">
-                  <strong>Duration:</strong> {course.Duration}
+                <p className="adDetails">
+                  <strong>Team Size:</strong> {ad.team_size}
                 </p>
-                <p className="courseDetails">
-                  <strong>Start Date:</strong> {course.StartDate}
-                </p>
-                <p className="courseDetails">
-                  <strong>End Date:</strong> {course.EndDate}
-                </p>
-                <p className="courseDetails">
-                  <strong>Team Size:</strong> {course.TeamSize}
+                <p className="adDetails">
+                  <strong>Looking for Mentor:</strong> {ad.looking_for_mentor ? "Yes" : "No"}
                 </p>
               </div>
             </div>
