@@ -1,0 +1,82 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .userList {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Allows space between cards */
+  }
+  
+  .userCard {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    width: calc(33.33% - 20px); /* 3 cards per row with spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.3s;
+  }
+  
+  .userCard:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profileImageWrapper {
+    width: 100px; /* Fixed width for profile images */
+    height: 100px; /* Fixed height for profile images */
+    border-radius: 50%; /* Circle shape */
+    overflow: hidden; /* Crop image to fit the circle */
+    margin-bottom: 15px;
+  }
+  
+  .profileImage {
+    width: 100%;
+    height: auto;
+  }
+  
+  .profileContent {
+    text-align: center;
+  }
+  
+  .profileName {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff; /* Bootstrap primary color */
+  }
+  
+  .profileUniversity,
+  .profileProgram,
+  .profileYear {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .userCard {
+      width: calc(50% - 20px); /* 2 cards per row on medium screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .userCard {
+      width: 100%; /* 1 card per row on small screens */
+    }
+  }
+  

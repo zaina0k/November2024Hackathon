@@ -1,24 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/profileViewer.css';
 
 export default function ProfileViewer() {
-  const profileData = { 
-    firstName: "John",
-    surname: "Doe",
-    email: "johndoe@example.com",
-    university: "Example University",
-    programOfStudy: "Computer Science",
-    studyYear: "3rd Year",
-    skills: ["React", "JavaScript", "CSS", "HTML"],
-    biography: "I am a passionate computer science student with experience in web development.",
-    profilePictureURL: "https://static01.nyt.com/images/2016/09/28/us/28xp-pepefrog/28xp-pepefrog-articleLarge.jpg?quality=75&auto=webp",
-    projectParticipation: "Web Dev Bootcamp, Open Source Contributor",
-    socialMediaLinks: {
-      github: "https://github.com/example",
-      linkedin: "https://linkedin.com/in/example"
-    },
-    lookingForProject: true
-  };
+  const [profileData, setProfileData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const urlPath = window.location.pathname; // Get the current path
+    const userId = parseInt(urlPath.split('/').pop(), 10); // Extract the user ID from the path
+
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/users/${userId}`); // Adjust the port if necessary
+        if (!response.ok) {
+          throw new Error('User not found');
+        }
+        const data = await response.json();
+        setProfileData(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // Show loading state or error
+  if (loading) return <div>Loading profile...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="profile-page">
@@ -34,8 +46,8 @@ export default function ProfileViewer() {
         <p><strong>Looking for Project:</strong> {profileData.lookingForProject ? "Yes" : "No"}</p>
         
         <div className="social-links">
-          <p><strong>GitHub:</strong> <a href={profileData.socialMediaLinks.github} target="_blank" rel="noopener noreferrer">{profileData.socialMediaLinks.github}</a></p>
-          <p><strong>LinkedIn:</strong> <a href={profileData.socialMediaLinks.linkedin} target="_blank" rel="noopener noreferrer">{profileData.socialMediaLinks.linkedin}</a></p>
+          <p><strong>GitHub:</strong> <a href={profileData.socialMediaLinks?.github || '#'} target="_blank" rel="noopener noreferrer">{profileData.socialMediaLinks?.github || 'N/A'}</a></p>
+          <p><strong>LinkedIn:</strong> <a href={profileData.socialMediaLinks?.linkedin || '#'} target="_blank" rel="noopener noreferrer">{profileData.socialMediaLinks?.linkedin || 'N/A'}</a></p>
         </div>
       </div>
       
