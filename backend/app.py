@@ -85,6 +85,15 @@ def get_user(user_id):
 
     return jsonify(dict(user)), 200
 
+@app.route('/api/users', methods=['GET'])
+def get_all_users():
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users")
+        users = cursor.fetchall()
+
+    return jsonify([dict(user) for user in users]), 200
+
 # Setting user attributes - NOTE THE USE OF A PUT Request
 @app.route('/api/user/<int:user_id>', methods=['PUT'])
 @jwt_required()
