@@ -19,6 +19,7 @@
   }
   
   .courseCard {
+    margin-top: 50px;
     display: flex; /* Use flexbox for the card */
     background-color: white; /* Example background */
     border: 1px solid #ddd; /* Example border */

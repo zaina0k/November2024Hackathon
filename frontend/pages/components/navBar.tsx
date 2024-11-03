@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -11,7 +10,8 @@ const Navbar = () => {
   useEffect(() => {
     // Check if token exists in localStorage to determine login status
     const token = localStorage.getItem('access_token');
-    setIsLoggedIn(!!token); // Set to true if token exists, otherwise false
+    // WORKINGCODE setIsLoggedIn(!!token); // Set to true if token exists, otherwise false
+    setIsLoggedIn(true); // for testing
   }, []);
 
   const handleLogout = () => {
@@ -19,7 +19,7 @@ const Navbar = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_id');
     setIsLoggedIn(false);
-    router.push('/signup'); // Redirect to sign-up page after logout
+    router.push('/signin'); // Redirect to sign-in page after logout
   };
 
   const navigateTo = (path: string) => {
@@ -43,36 +43,9 @@ const Navbar = () => {
         Project Finder
       </div>
       <div>
-        <button
-          onClick={() => navigateTo('/profile')}
-          style={{
-            margin: '0 10px',
-            padding: '8px 12px',
-            backgroundColor: '#0044cc',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer'
-          }}
-        >
-          Profile
-        </button>
+        
         {isLoggedIn ? (
           <>
-            <button
-              onClick={() => navigateTo('/people-search')}
-              style={{
-                margin: '0 10px',
-                padding: '8px 12px',
-                backgroundColor: '#0044cc',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer'
-              }}
-            >
-              People Search
-            </button>
             <button
               onClick={() => navigateTo('/project-finder')}
               style={{
@@ -87,6 +60,36 @@ const Navbar = () => {
             >
               Project Finder
             </button>
+            <button
+              onClick={() => navigateTo('/people-search')}
+              style={{
+                margin: '0 10px',
+                padding: '8px 12px',
+                backgroundColor: '#0044cc',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}
+            >
+              People Finder
+            </button>
+
+            <button
+              onClick={() => navigateTo('/profile')}
+              style={{
+                margin: '0 10px',
+                padding: '8px 12px',
+                backgroundColor: '#0044cc',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}
+            >
+              Profile
+            </button>
+
             <button
               onClick={handleLogout}
               style={{
@@ -104,7 +107,37 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            
+            {/* Displays when the user is not logged in */}
+            <button
+              onClick={() => navigateTo('/signin')}
+              style={{
+                margin: '0 10px',
+                padding: '8px 12px',
+                backgroundColor: '#666',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}
+            >
+              Sign in
+            </button>
+
+            <button
+              onClick={() => navigateTo('/signup')}
+              style={{
+                margin: '0 10px',
+                padding: '8px 12px',
+                backgroundColor: '#fff',
+                color: '#000',
+                borderWidth: '2px',
+                borderColor:'#111',
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}
+            >
+              Sign up
+            </button>
           </>
         )}
       </div>
@@ -113,3 +146,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+

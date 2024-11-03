@@ -27,9 +27,9 @@ export default function Homepage() {
         <h2 className="title">Project Finder</h2>
         <div className="adList">
           {ads.map((ad) => (
-            <div key={ad.projectid} className="adCard">
+            <div key={ad.projectid} className="courseCard">
               <div className="adImageWrapper">
-                <img src={ad.image} alt={`${ad.title} Image`} className="adImage" />
+                <img src={ad.image} className="adImage" />
               </div>
               <div className="adContent">
                 <h3 className="adTitle">{ad.title}</h3>
